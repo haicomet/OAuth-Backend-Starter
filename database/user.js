@@ -11,14 +11,30 @@ const User = db.define("user", {
       len: [3, 20],
     },
   },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true,
+    validate: {
+      isEmail: true,
+    },
+  },
+  auth0Id: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true,
+  },
   passwordHash: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true, // Allow null for Auth0 users
   },
 });
 
 // Instance method to check password
 User.prototype.checkPassword = function (password) {
+  if (!this.passwordHash) {
+    return false; // Auth0 users don't have passwords
+  }
   return bcrypt.compareSync(password, this.passwordHash);
 };
 

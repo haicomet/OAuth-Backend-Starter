@@ -11,6 +11,8 @@ const seed = async () => {
     { username: "user2", passwordHash: User.hashPassword("password") },
   ]);
 
+  console.log(`👤 Created ${users.length} users`);
+
   const ducks = await Duck.bulkCreate([
     { name: "James Pond" },
     { name: "Quakie Chan" },
