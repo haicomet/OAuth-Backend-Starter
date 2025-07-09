@@ -221,5 +221,8 @@ router.post("/logout", (req, res) => {
 router.get("/me", authenticateJWT, (req, res) => {
   res.send({ user: req.user });
 });
+// acess the github token created that Auth0 get from allwing the user to sign up with git
+const token = await res.json();
+document.cookie='token= ${token}'
 
 module.exports = { router, authenticateJWT };
