@@ -53,14 +53,12 @@ router.get("/:id/github-idp-token", authenticateJWT, async (req, res) => {
         const managementToken = await getManagementToken();
         const userInfo = await getIdentityProviderTokens(managementToken, auth0ID);
         let idpToken = null;
-        console.log(userInfo.identities);
         for (const identity of userInfo.identities) {
             if (identity.provider === "github") {
                 idpToken = identity.access_token;
                 break;
             }
         }
-        console.log(idpToken);
         if (idpToken)
             res.status(200).send(idpToken);
         else
