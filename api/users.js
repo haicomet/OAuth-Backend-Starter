@@ -30,4 +30,21 @@ const getManagementToken = async () => {
     }
 };
 
+// Retrieve a user's IdP Access Token from the Auth0 Management API
+const getIdentityProviderToken = async (managementToken, userID) => {
+    try {
+        const response = await axios.get(`${AUDIENCE}/users/${userID}`, {
+            headers: {
+                Authorization: `Bearer ${managementToken}`
+            }
+        });
+        const token = response.data;
+        console.log("IdP Access Token:", token);
+        return token;
+    } catch (error) {
+        console.error("Error getting IdP Access Token:", error);
+        throw(error);
+    }
+};
+
 module.exports = router;
