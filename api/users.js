@@ -47,4 +47,17 @@ const getIdentityProviderToken = async (managementToken, userID) => {
     }
 };
 
+// GET route to retrieve user IdP token (protected)
+router.get("/:id/idp-token", authenticateJWT, async (req, res) => {
+    try {
+        const auth0ID = req.params.id;
+        const managementToken = await getManagementToken();
+        const idpToken = await getIdentityProviderToken(managementToken, auth0ID);
+        res.status(200).send(idpToken);
+    } catch (error) {
+        console.error("Error retrieving IdP Token:", error);
+        res.sendStatus(500);
+    }
+});
+
 module.exports = router;
